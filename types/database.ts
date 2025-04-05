@@ -9,26 +9,26 @@ export type Prefecture = {
   export type Writer = {
     id: string;
     name: string;
-    image_url?: string;
-    sns_link?: string;
-    description?: string;
+    image: string;
+    description: string;
+    articles: number;
     created_at: string;
   };
   
   export type Hall = {
     id: string;
     name: string;
-    address?: string;
-    prefecture_id?: string;
-    website_url?: string;
-    image_url?: string;
+    address: string;
+    machines: number;
+    rating: number;
     created_at: string;
   };
   
   export type Event = {
     id: string;
-    event_date: string;
-    writer_id?: string;
-    hall_id?: string;
+    title: string;
+    date: string;
+    location: string;
+    description: string;
     created_at: string;
   };
