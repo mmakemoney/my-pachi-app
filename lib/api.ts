@@ -27,7 +27,16 @@ export const fetchWriters = async (): Promise<Writer[]> => {
     console.error('Error fetching writers:', error);
     return [];
   }
-  return data;
+  
+  // 型定義に合わせてデータを変換
+  return data.map(writer => ({
+    id: writer.id,
+    name: writer.name,
+    image: writer.image_url || '/default-avatar.png',
+    description: writer.description || '説明なし',
+    articles: 0, // 実際の記事数を取得するロジックが必要
+    created_at: writer.created_at
+  }));
 };
 
 // ホール一覧を取得
@@ -41,7 +50,16 @@ export const fetchHalls = async (): Promise<Hall[]> => {
     console.error('Error fetching halls:', error);
     return [];
   }
-  return data;
+  
+  // 型定義に合わせてデータを変換
+  return data.map(hall => ({
+    id: hall.id,
+    name: hall.name,
+    address: hall.address || '住所不明',
+    machines: 0, // 実際の台数を取得するロジックが必要
+    rating: 3, // デフォルト評価
+    created_at: hall.created_at
+  }));
 };
 
 // イベント一覧を取得
@@ -55,5 +73,14 @@ export const fetchEvents = async (): Promise<Event[]> => {
     console.error('Error fetching events:', error);
     return [];
   }
-  return data;
+  
+  // 型定義に合わせてデータを変換
+  return data.map(event => ({
+    id: event.id,
+    title: `イベント ${event.id}`,
+    date: event.event_date,
+    location: '場所不明',
+    description: '詳細情報なし',
+    created_at: event.created_at
+  }));
 };
