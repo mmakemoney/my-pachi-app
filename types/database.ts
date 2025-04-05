@@ -1,9 +1,8 @@
 // types/database.ts
 
 export type Prefecture = {
-    id: string;
+    id: number;
     name: string;
-    created_at: string;
   };
   
   export type Writer = {
@@ -12,7 +11,6 @@ export type Prefecture = {
     image: string;
     description: string;
     articles: number;
-    created_at: string;
   };
   
   export type Hall = {
@@ -21,7 +19,6 @@ export type Prefecture = {
     address: string;
     machines: number;
     rating: number;
-    created_at: string;
   };
   
   export type Event = {
@@ -30,5 +27,26 @@ export type Prefecture = {
     date: string;
     location: string;
     description: string;
-    created_at: string;
+  };
+
+  export type Database = {
+    public: {
+      Tables: {
+        writers: {
+          Row: Writer;
+          Insert: Omit<Writer, 'id'>;
+          Update: Partial<Omit<Writer, 'id'>>;
+        };
+        halls: {
+          Row: Hall;
+          Insert: Omit<Hall, 'id'>;
+          Update: Partial<Omit<Hall, 'id'>>;
+        };
+        events: {
+          Row: Event;
+          Insert: Omit<Event, 'id'>;
+          Update: Partial<Omit<Event, 'id'>>;
+        };
+      };
+    };
   };

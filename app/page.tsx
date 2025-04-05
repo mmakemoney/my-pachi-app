@@ -63,6 +63,7 @@ export default function Home() {
             events.map((event) => (
               <EventCard
                 key={event.id}
+                id={event.id}
                 title={event.title}
                 date={event.date}
                 location={event.location}
@@ -82,6 +83,7 @@ export default function Home() {
             writers.map((writer) => (
               <WriterCard
                 key={writer.id}
+                id={writer.id}
                 name={writer.name}
                 image={writer.image}
                 description={writer.description}
@@ -101,6 +103,7 @@ export default function Home() {
             halls.map((hall) => (
               <HallCard
                 key={hall.id}
+                id={hall.id}
                 name={hall.name}
                 address={hall.address}
                 machines={hall.machines}
