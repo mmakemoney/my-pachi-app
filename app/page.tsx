@@ -7,6 +7,7 @@ import { Event, Hall, Writer } from '../types/database';
 import EventCard from './components/EventCard';
 import WriterCard from './components/WriterCard';
 import HallCard from './components/HallCard';
+import SearchBar from './components/SearchBar';
 
 export default function Home() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -14,6 +15,7 @@ export default function Home() {
   const [halls, setHalls] = useState<Hall[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const loadData = async () => {
@@ -44,6 +46,24 @@ export default function Home() {
     loadData();
   }, []);
 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const filteredEvents = events.filter(event => 
+    event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    event.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredWriters = writers.filter(writer => 
+    writer.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredHalls = halls.filter(hall => 
+    hall.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    hall.address.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) {
     return <div className="container mx-auto px-4 py-8 text-center">読み込み中...</div>;
   }
@@ -56,11 +76,13 @@ export default function Home() {
     <main className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">パチンコ情報</h1>
       
+      <SearchBar onSearch={handleSearch} placeholder="ライター名、ホール名、イベント名で検索..." />
+      
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">最新イベント</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {events.length > 0 ? (
-            events.map((event) => (
+          {filteredEvents.length > 0 ? (
+            filteredEvents.map((event) => (
               <EventCard
                 key={event.id}
                 id={event.id}
@@ -79,8 +101,8 @@ export default function Home() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">ライター一覧</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {writers.length > 0 ? (
-            writers.map((writer) => (
+          {filteredWriters.length > 0 ? (
+            filteredWriters.map((writer) => (
               <WriterCard
                 key={writer.id}
                 id={writer.id}
@@ -99,8 +121,8 @@ export default function Home() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">ホール一覧</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {halls.length > 0 ? (
-            halls.map((hall) => (
+          {filteredHalls.length > 0 ? (
+            filteredHalls.map((hall) => (
               <HallCard
                 key={hall.id}
                 id={hall.id}
